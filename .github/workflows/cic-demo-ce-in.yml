@@ -47,7 +47,7 @@ jobs:
       run: az account set --subscription ${{ vars.cic_demo_ce_in_SUBSCRIPTION_ID_6B66 }}
     - name: Install Container Apps extension
       run: az extension add --name containerapp --upgrade 
-           az extension list --output table
+           az extension list
     - name: Deploy to containerapp
       uses: azure/CLI@v2
       with:
