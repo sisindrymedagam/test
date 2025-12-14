@@ -1,4 +1,4 @@
-name: Build and deploy .NET application to container app cic-demo-ce-in
+name: Build and deploy .NET application to container app cic-ctr-in
 on:
   push:
     branches:
@@ -7,9 +7,9 @@ permissions:
   id-token: write
   contents: read
 env:
-  CONTAINER_APP_CONTAINER_NAME: bootstrap-container-pre-deployment
-  CONTAINER_APP_NAME: cic-demo-ce-in
-  CONTAINER_APP_RESOURCE_GROUP_NAME: CICDemo-QA_group
+  CONTAINER_APP_CONTAINER_NAME: cic-ctr-in
+  CONTAINER_APP_NAME: cic-ctr-in
+  CONTAINER_APP_RESOURCE_GROUP_NAME: ctr-in
   CONTAINER_REGISTRY_LOGIN_SERVER: testcore20251214134624.azurecr.io
   DOCKER_FILE_PATH: TestCore/Dockerfile
   PROJECT_NAME_FOR_DOCKER: testcore
@@ -25,8 +25,8 @@ jobs:
       uses: docker/login-action@v3
       with:
         registry: ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.TestCore20251214134624_USERNAME_6B66 }}
-        password: ${{ secrets.TestCore20251214134624_PASSWORD_6B66 }}
+        username: ${{ secrets.TestCore20251214134624_USERNAME_73FF }}
+        password: ${{ secrets.TestCore20251214134624_PASSWORD_73FF }}
     - name: Build and push container image to registry
       uses: docker/build-push-action@v6
       with:
@@ -40,22 +40,16 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
-        client-id: ${{ vars.cic_demo_ce_in_CLIENT_ID_6B66 }}
-        tenant-id: ${{ vars.cic_demo_ce_in_TENANT_ID_6B66 }}
-        subscription-id: ${{ vars.cic_demo_ce_in_SUBSCRIPTION_ID_6B66 }}
-    - name: Set Azure subscription
-      run: az account set --subscription ${{ vars.cic_demo_ce_in_SUBSCRIPTION_ID_6B66 }}
-    - name: Install Container Apps extension
-      run: |
-        az extension add --name containerapp --upgrade
-        az extension list
+        client-id: ${{ vars.cic_ctr_in_CLIENT_ID_73FF }}
+        tenant-id: ${{ vars.cic_ctr_in_TENANT_ID_73FF }}
+        subscription-id: ${{ vars.cic_ctr_in_SUBSCRIPTION_ID_73FF }}
     - name: Deploy to containerapp
       uses: azure/CLI@v2
       with:
         inlineScript: >
           az config set extension.use_dynamic_install=yes_without_prompt
 
-          az containerapp registry set --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --server ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.TestCore20251214134624_USERNAME_6B66 }} --password ${{ secrets.TestCore20251214134624_PASSWORD_6B66 }}
+          az containerapp registry set --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --server ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.TestCore20251214134624_USERNAME_73FF }} --password ${{ secrets.TestCore20251214134624_PASSWORD_73FF }}
 
           az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --container-name ${{ env.CONTAINER_APP_CONTAINER_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --image ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.PROJECT_NAME_FOR_DOCKER }}:${{ github.sha }}
     - name: logout
