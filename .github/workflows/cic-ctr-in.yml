@@ -43,10 +43,15 @@ jobs:
         client-id: ${{ vars.cic_ctr_in_CLIENT_ID_73FF }}
         tenant-id: ${{ vars.cic_ctr_in_TENANT_ID_73FF }}
         subscription-id: ${{ vars.cic_ctr_in_SUBSCRIPTION_ID_73FF }}
+
     - name: Deploy to containerapp
       uses: azure/CLI@v2
       with:
         inlineScript: >
+          az account show
+          az account set --subscription ${{ vars.cic_ctr_in_SUBSCRIPTION_ID_73FF }}
+          az containerapp show --name cic-ctr-in --resource-group ctr-in
+
           az config set extension.use_dynamic_install=yes_without_prompt
 
           az containerapp registry set --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --server ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.TestCore20251214134624_USERNAME_73FF }} --password ${{ secrets.TestCore20251214134624_PASSWORD_73FF }}
