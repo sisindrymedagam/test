@@ -43,6 +43,8 @@ jobs:
         client-id: ${{ vars.cic_demo_ce_in_CLIENT_ID_6B66 }}
         tenant-id: ${{ vars.cic_demo_ce_in_TENANT_ID_6B66 }}
         subscription-id: ${{ vars.cic_demo_ce_in_SUBSCRIPTION_ID_6B66 }}
+    - name: Set Azure subscription
+      run: az account set --subscription ${{ vars.cic_demo_ce_in_SUBSCRIPTION_ID_6B66 }}
     - name: Deploy to containerapp
       uses: azure/CLI@v2
       with:
