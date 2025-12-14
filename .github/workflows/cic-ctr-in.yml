@@ -49,7 +49,9 @@ jobs:
       with:
         inlineScript: >
           az account show
+
           az account set --subscription ${{ vars.cic_ctr_in_SUBSCRIPTION_ID_73FF }}
+          
           az containerapp show --name cic-ctr-in --resource-group ctr-in
 
           az config set extension.use_dynamic_install=yes_without_prompt
