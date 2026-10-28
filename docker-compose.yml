@@ -1,0 +1,6 @@
+services:
+  testcore:
+    image: ${DOCKER_REGISTRY-}testcore
+    build:
+      context: .
+      dockerfile: TestCore/Dockerfile
