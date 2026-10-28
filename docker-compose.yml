@@ -1,6 +1,11 @@
 services:
-  testcore:
-    image: ${DOCKER_REGISTRY-}testcore
+  dokploy:
     build:
-      context: .
-      dockerfile: TestCore/Dockerfile
+      context: ./dokploy
+      dockerfile: Dockerfile
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.a-beszel-a95pzl-715-web.rule=Host(`a-beszel-d073ee-31-220-108-27.traefik.me`)
+      - traefik.http.routers.a-beszel-a95pzl-715-web.entrypoints=web
+      - traefik.http.services.a-beszel-a95pzl-715-web.loadbalancer.server.port=8090
+      - traefik.http.routers.a-beszel-a95pzl-715-web.service=a-beszel-a95pzl-715-web
