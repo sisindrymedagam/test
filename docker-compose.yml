@@ -8,6 +8,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
+      # Set DEPLOY_ENVIRONMENT in Dokploy's Environment tab; overrides AppSettings:DeployEnvironment
+      - AppSettings__DeployEnvironment=${DEPLOY_ENVIRONMENT:-not set in Dokploy}
     expose:
       - 8080
     networks:
