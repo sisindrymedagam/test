@@ -12,14 +12,9 @@ services:
       - AppSettings__DeployEnvironment=${DEPLOY_ENVIRONMENT:-not set in Dokploy}
     expose:
       - 8080
+    # Routing is configured in Dokploy's Domains tab (service: dokploy, port: 8080)
     networks:
       - dokploy-network
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.dokploy-web.rule=Host(`a-beszel-d073ee-31-220-108-27.traefik.me`)
-      - traefik.http.routers.dokploy-web.entrypoints=web
-      - traefik.http.routers.dokploy-web.service=dokploy-web
-      - traefik.http.services.dokploy-web.loadbalancer.server.port=8080
 
 networks:
   dokploy-network:
