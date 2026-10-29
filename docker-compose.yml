@@ -10,9 +10,10 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       # Set DEPLOY_ENVIRONMENT in Dokploy's Environment tab; overrides AppSettings:DeployEnvironment
       - AppSettings__DeployEnvironment=${DEPLOY_ENVIRONMENT:-not set in Dokploy}
-    expose:
-      - 8080
-    # Routing is configured in Dokploy's Domains tab (service: dokploy, port: 8080)
+    # The VPS is behind NAT: cloudclusters maps public 108.181.162.218:10004 -> VPS port 8080
+    ports:
+      - "8080:8080"
+    # Domain routing via Traefik is configured in Dokploy's Domains tab (service: dokploy, port: 8080)
     networks:
       - dokploy-network
 
