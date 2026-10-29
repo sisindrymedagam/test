@@ -8,10 +8,12 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["dokploy.csproj", "./"]
-RUN dotnet restore "dokploy.csproj"
+COPY ["dokploy/dokploy.csproj", "dokploy/"]
+RUN dotnet restore "dokploy/dokploy.csproj"
 
 COPY . .
+WORKDIR /src/dokploy
+
 RUN dotnet publish "dokploy.csproj" \
     -c $BUILD_CONFIGURATION \
     -o /app/publish \
